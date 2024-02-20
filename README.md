@@ -34,11 +34,12 @@ Today we will learn about Components and Props to help us accomplish some tasks 
 8. In `App.js`, the `PetList` component should have a prop called `pets`. The value of the `pets` prop should be the value of the `pets` variable declared in the `App` component.
 9. In `PetList.js`, destructure the `pets` prop in the `PetList` component.
 10. In the `PetList` component, use the `.map()` array iterator to iterate over the `pets` array (prop that was passed to the `PetList` component) and create a list of `Pet` components which should be rendered inside of the `<ul>` element in the `PetList` component.
-11. The `Pet` component should have a prop called `pet`. The value of the `pet` prop should be an object from the `pets` array (prop that was passed to the `PetList` component).
-12. Create a new file called `Pet.js` inside of the `components` folder. Then, inside of the `Pet.js` file, create a `Pet` component. Destructure the `pet` prop in the `Pet` component. The `Pet` component must return an `<li>` element with the `className` of "pet". This `<li>` element must contain the following elements inside it:
+11. The `Pet` components should have a prop called `pet`. The value of the `pet` prop should be an object from the `pets` array (prop that was passed to the `PetList` component).
+12. Create a `key` prop for the `Pet` components - this is necessary since we are creating a list of `Pet` components. The value of the `key` prop should be the `id` for the pet object.
+13. Create a new file called `Pet.js` inside of the `components` folder. Then, inside of the `Pet.js` file, create a `Pet` component. Destructure the `pet` prop in the `Pet` component. The `Pet` component must return an `<li>` element with the `className` of "pet". This `<li>` element must contain the following elements inside it:
 - An `<img>` element. The `<img>` element's `src` attribute must have the value of the pet's image. The `<img>` element's `alt` attribute must have the value of the pet's name.
 - An `<h4>` element. The pet's name should display inside of this `<h4>` element.
-13. Export your `Pet` component from `Pet.js`. Import your `Pet` component into `PetList.js`.
+14. Export your `Pet` component from `Pet.js`. Import your `Pet` component into `PetList.js`.
 
 ## Creating a React App
 
