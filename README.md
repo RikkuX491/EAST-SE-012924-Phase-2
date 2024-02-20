@@ -7,10 +7,10 @@
 
 |No. | Lecture                          | Video 	| Starter 	| Solution 	|
 |----|------------------------------	|:-----:	|--------	|---------	|
-|1 | Components & Props                 ||||
+|1 | Components & Props               |[Video](https://www.youtube.com/watch?v=QWSYiV6Lxv0)|[01_starter](https://github.com/RikkuX491/EAST-SE-012924-Phase-2/tree/01_starter)|[01_solution](https://github.com/RikkuX491/EAST-SE-012924-Phase-2/tree/01_solution)|
 |2 | State & Events                 	||||
-|3 | Information Flow                 	||||
+|3 | Information Flow                 ||||
 |4 | Forms                          	||||
-|5 | Side Effects & Data Fetching      	||||
+|5 | Side Effects & Data Fetching     ||||
 |6 | PATCH & DELETE                 	||||
-|7 | Client-Side Routing               	||||
+|7 | Client-Side Routing              ||||
