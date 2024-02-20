@@ -1,6 +1,5 @@
+// Deliverable # 13
 function Pet({pet}){
-    // console.log(pet)
-    // console.log(pet.image)
     return (
         <li className="pet">
             <img src={pet.image} alt={pet.name}/>
@@ -9,4 +8,5 @@ function Pet({pet}){
     )
 }
 
+// Deliverable # 14
 export default Pet;

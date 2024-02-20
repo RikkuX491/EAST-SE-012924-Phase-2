@@ -1,4 +1,7 @@
+// Deliverable # 3
 import Header from "./Header"
+
+// Deliverable # 6
 import PetList from "./PetList"
 
 function App() {
@@ -42,9 +45,12 @@ function App() {
   ]
 
   return (
+    // Deliverable # 1
     <div className="app">
+        {/* Deliverable # 4 */}
         <Header/>
-        {/* <PetList petName="Dog" age="56"/> */}
+
+        {/* Deliverable # 7 & 8 */}
         <PetList pets={pets}/>
     </div>
   );
