@@ -1,3 +1,6 @@
+import Header from "./Header"
+import PetList from "./PetList"
+
 function App() {
 
   const pets = [
@@ -39,7 +42,11 @@ function App() {
   ]
 
   return (
-    <h1>Welcome to React!</h1>
+    <div className="app">
+        <Header/>
+        {/* <PetList petName="Dog" age="56"/> */}
+        <PetList pets={pets}/>
+    </div>
   );
 }
 
