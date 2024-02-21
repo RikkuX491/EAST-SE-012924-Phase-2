@@ -4,10 +4,8 @@ function Pet({pet}){
 
     const [count, setCount] = useState(0)
     const [displayAnimalType, setDisplayAnimalType] = useState(false)
-    
-    // setCount(count + 1)
 
-    // Example code with Vanilla JS
+    // Example code with Vanilla JS code (lines 11 - 16)
     // let counter = 0
     // const buttonElement = document.querySelector('li button')
     // buttonElement.addEventListener('click', () => {
