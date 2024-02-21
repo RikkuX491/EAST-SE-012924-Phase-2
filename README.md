@@ -11,6 +11,22 @@ Please make sure that you are inside the folder for this repository which contai
 1. Run `npm install` in your terminal to install the dependencies from the `package.json` file.
 2. Run `npm start` in your terminal to run this React app in the browser. If your browser does not automatically open the page for you, open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+## Deliverables
+
+We've been asked to build a website for a new pet adoption center, Flatapets, that displays a list of pets available for adoption at this pet adoption center.
+
+Today we will learn about State and Events to help us accomplish some tasks related to displaying data on the website.
+
+Make sure to import `useState` into any Components where you will use `useState`! You can do this by writing the following line of code at the top of the page where the `import` statements are written:
+
+``` javascript
+import { useState } from "react";
+```
+
+1. In the `Pet` Component in `Pet.js`, use `useState` to create a stateful variable named `count` and a setter function called `setCount`. The initial value for the state should be `0`.
+2. Modify the text content for the `button` element returned from the `Pet` component so that you are using the value of the `count` stateful variable instead of the `0` that is in the text content for the `button`.
+3. Add a click event listener to the `button` element returned from the `Pet` component. Clicking the button should invoke a callback function that will call the setter function `setCount`. Use the `setCount` setter function to increase the value of `count` by 1.
+
 ### Events
 
 In React, we add event handlers directly to our JSX. We still must supply the event handler with a callback. For example, if we're trying to implement a click handler on a button, we could do so by passing a callback function to the onClick attribute of an element:
