@@ -1,13 +1,9 @@
-# Lecture # 1 - Components & Props
+# Lecture # 2 - State & Events
 ## SWBAT
-- [ ] Review the benefits of React over Vanilla JS
-- [ ] Review the difference between HTML and JSX
-- [ ] Review the importance of Components
-- [ ] Review how a component is written
-- [ ] Explain what props are and how to create them
-- [ ] Recognize destructured props and how to work with them
-- [ ] Recognize best practices when writing components and props
-- [ ] Observe how to render multiple components from a list
+- [ ] Explain the importance of state
+- [ ] Explain the difference between state and props
+- [ ] Observe how to use the useState hook
+- [ ] Observe how to use DOM events in React
 
 ## Setup
 Please make sure that you are inside the folder for this repository which contains the `package.json` file before following these instructions for setup:
@@ -15,102 +11,85 @@ Please make sure that you are inside the folder for this repository which contai
 1. Run `npm install` in your terminal to install the dependencies from the `package.json` file.
 2. Run `npm start` in your terminal to run this React app in the browser. If your browser does not automatically open the page for you, open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Deliverables
+### Events
 
-We've been asked to build a website for a new pet adoption center, Flatapets, that displays a list of pets available for adoption at this pet adoption center.
-
-Today we will learn about Components and Props to help us accomplish some tasks related to displaying data on the website.
-
-1. In the `App.js` file, the `App` component currently returns an `<h1>` element with the text "Welcome to React!" Delete this `<h1>` element, and replace it with a `<div>` element with the `className` of "app" so that the `App` component returns this `<div>` element.
-2. Create a new file called `Header.js` inside of the `components` folder. Then, inside of the `Header.js` file, create a `Header` component that will return a `<header>` element that contains the following elements inside it:
-- An `<h1>` element.
-- The `<h1>` element must have the text "Flatapets" inside it, as well as a `<span>` element inside it.
-- The `<span>` element must have the `className` of "logo", and must have the 🐈 emoji inside it.
-3. Export your `Header` component from `Header.js`. Import your `Header` component into `App.js`.
-4. Render the `Header` component inside of the `<div>` element returned from the `App` component.
-5. Create a new file called `PetList.js` inside of the `components` folder. Then, inside of the `PetList.js` file, create a `PetList` component that will return a `<ul>` element with the `className` of "pet-list".
-6. Export your `PetList` component from `PetList.js`. Import your `PetList` component into `App.js`.
-7. Render the `PetList` component inside of the `<div>` element returned from the `App` component. The `PetList` component should be rendered after the `Header` component.
-8. In `App.js`, the `PetList` component should have a prop called `pets`. The value of the `pets` prop should be the value of the `pets` variable declared in the `App` component.
-9. In `PetList.js`, destructure the `pets` prop in the `PetList` component.
-10. In the `PetList` component, use the `.map()` array iterator to iterate over the `pets` array (prop that was passed to the `PetList` component) and create a list of `Pet` components which should be rendered inside of the `<ul>` element in the `PetList` component.
-11. The `Pet` components should have a prop called `pet`. The value of the `pet` prop should be an object from the `pets` array (prop that was passed to the `PetList` component).
-12. Create a `key` prop for the `Pet` components - this is necessary since we are creating a list of `Pet` components. The value of the `key` prop should be the `id` for the pet object.
-13. Create a new file called `Pet.js` inside of the `components` folder. Then, inside of the `Pet.js` file, create a `Pet` component. Destructure the `pet` prop in the `Pet` component. The `Pet` component must return an `<li>` element with the `className` of "pet". This `<li>` element must contain the following elements inside it:
-- An `<img>` element. The `<img>` element's `src` attribute must have the value of the pet's image. The `<img>` element's `alt` attribute must have the value of the pet's name.
-- An `<h4>` element. The pet's name should display inside of this `<h4>` element.
-14. Export your `Pet` component from `Pet.js`. Import your `Pet` component into `PetList.js`.
-
-## Creating a React App
-
-`create-react-app` will build a project folder for our application and install all the dependencies we need (via Node Package Manager).
-
-To create a new React application and start it, run:
-
-```
-npx create-react-app app-name
-cd app-name
-npm start
-```
-
-In addition to React, it gives us:
-
-- Webpack: a tool for bundling and minifying our code (along with a server for running our code in development)
-- Babel: a transpiler that lets us write modern JavaScript and JSX
-
-## Components
-
-Components are the building blocks of React. A component is a function that:
-
-- Takes in some raw data (props)
-- Returns user interface (JSX)
-
-There are some things you'll need to keep in mind:
-
-- The name of your component function must be capitalized.
-- A component can only return one element. That element can have children, like this:
+In React, we add event handlers directly to our JSX. We still must supply the event handler with a callback. For example, if we're trying to implement a click handler on a button, we could do so by passing a callback function to the onClick attribute of an element:
 
 ``` javascript
-function Card() {
-  return (
-    <div id="card1" className="card">
-      <h1>Hello Flatiron!</h1>
-      <p>Greetings!</p>
-    </div>
-  );
+function Counter() {
+  return <button onClick={() => console.log("clicked!")}>Click Me</button>;
 }
 ```
 
-## Props
+Events can only be attached to DOM elements, we can't attach event listeners to our components.
 
-When you create components, one way to make them dynamic and reusable is by passing in props. For example, if we wanted to create several cards on our page using a Card component, we could do so like this:
+We can also create a helper function for the callback:
 
 ``` javascript
-function Card(props) {
-  return (
-    <div id="card1" className="card">
-      <h1>{props.greeting}</h1>
-      <p>{props.subGreeting}</p>
-    </div>
-  );
-}
+function Counter() {
+  function handleClick(event) {
+    console.log(event);
+  }
 
-ReactDOM.render(
-  <div>
-    <Card greeting="Good morning!" subGreeting="Hello World!" />
-    <Card greeting="Class is in session!" subGreeting="Welcome to React!" />
-  </div>,
-  document.getElementById("root")
-);
+  return <button onClick={handleClick}>Click Me</button>;
+}
 ```
 
-The props argument in our Card component defines an object that React will pass to our function when it is called, and it will use whatever attributes we add to our JSX component as key-value pairs on that props object.
+This is helpful in the case where we need to introduce additional event handling logic. We can do so without cluttering our JSX.
+
+Rather than working with the native event object in the browser, React passes a Synthetic Event object to our event handlers. Synthetic events ensure that you can use the event object in the same way regardless of browser or machine. This comes back to the learn once, write anywhere principle.
+
+Otherwise, events are more or less the same as they are in vanilla JS. With one notable exception being onChange which in React behaves identically to the onInput event.
+
+### State
+
+State is used for data that needs to be dynamic. Where props are passed down from parents to children and are static, values stored in state are meant to change, especially as the user interacts with the DOM.
+
+This is a key component of declarative programming in React: we tie our components to our state by integrating values in state into logic (e.g. conditional rendering). This way, changes in state eventually cause changes to the DOM.
+
+To work with state in a function component, we use the `useState` hook:
+
+```js
+import React, { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return <button>Count: {count}</button>;
+}
+```
+
+When we call `useState(0)` inside the function component, that creates a new "state variable" which our function gets access to. That new state variable has an initial value of 0 (or whatever we pass into useState when we call it)
+
+`useState` will return an array of two elements:
+
+- count: the current value for the state variable
+- setCount: a setter function to update the state variable
+
+To update a state variable, we use its setter function:
+
+```js
+import React, { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
+  return <button onClick={handleClick}>Count: {count}</button>;
+}
+```
+
+Calling the setter function does two things:
+
+- It updates the state variable to some new value
+- It causes our component to re-render and update the DOM
 
 ### Resources
 
-- [React](https://reactjs.org/)
-- [Babel](https://babeljs.io/)
-- [Creating React Apps](https://reactjs.org/docs/create-a-new-react-app.html)
-- [create-react-app](https://create-react-app.dev/docs/getting-started)
-- [Webpack](https://webpack.js.org/)
-- [Quick intro to Webpack](https://medium.com/the-self-taught-programmer/what-is-webpack-and-why-should-i-care-part-1-introduction-ca4da7d0d8dc)
+- [React Docs - Events](https://reactjs.org/docs/events.html)
+- [React Docs - Hooks](https://reactjs.org/docs/hooks-overview.html)
+- [React Docs - Functional State Updates](https://reactjs.org/docs/hooks-reference.html#functional-updates)
+- [React Docs - Stale State Problem](https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function)

@@ -1,12 +1,11 @@
-// Deliverable # 13
 function Pet({pet}){
     return (
         <li className="pet">
             <img src={pet.image} alt={pet.name}/>
-            <h4>{pet.name}</h4>
+            <h4 className="">{pet.name}</h4>
+            <button className="like-button">0 Likes</button>
         </li>
-    )
+    );
 }
 
-// Deliverable # 14
 export default Pet;

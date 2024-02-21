@@ -1,4 +1,3 @@
-// Deliverable # 2
 function Header(){
     return (
         <header>
@@ -9,8 +8,7 @@ function Header(){
                 </span>
             </h1>
         </header>
-    )
+    );
 }
 
-// Deliverable # 3
 export default Header;
