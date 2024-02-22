@@ -9,9 +9,6 @@ function PetPage(){
     const [searchText, setSearchText] = useState("")
 
     const filteredPets = pets.filter(pet => {
-        // if(searchText === ""){
-        //     return true
-        // }
         return pet.name.toUpperCase().includes(searchText.toUpperCase())
     })
 

@@ -1,9 +1,8 @@
-# Lecture # 2 - State & Events
+# Lecture # 3 - Information Flow
 ## SWBAT
-- [ ] Explain the importance of state
-- [ ] Explain the difference between state and props
-- [ ] Observe how to use the useState hook
-- [ ] Observe how to use DOM events in React
+- [ ] Define the term “lifting state”
+- [ ] Recognize the pattern for changing state in a parent component from a child component
+- [ ] Explain the role that callback functions play in changing parent state
 
 ## Setup
 Please make sure that you are inside the folder for this repository which contains the `package.json` file before following these instructions for setup:
@@ -15,100 +14,101 @@ Please make sure that you are inside the folder for this repository which contai
 
 We've been asked to build a website for a new pet adoption center, Flatapets, that displays a list of pets available for adoption at this pet adoption center.
 
-Today we will learn about State and Events to help us accomplish some tasks related to displaying data on the website.
+Today we will learn about Information Flow to help us accomplish some tasks related to displaying data on the website.
 
-Make sure to import `useState` into any Components where you will use `useState`! You can do this by writing the following line of code at the top of the page where the `import` statements are written:
+1. Deliverable # 1 begins here...
 
-``` javascript
-import { useState } from "react";
-```
+### Process: Building React Features With State
 
-1. In the `Pet` Component in `Pet.js`, use `useState` to create a stateful variable named `count` and a setter function called `setCount`. The initial value for the state should be `0`.
-2. Modify the text content for the `<button>` element returned from the `Pet` component so that you are using the value of the `count` stateful variable instead of the `0` that is in the text content for the `button`.
-3. Add a click event listener to the `<button>` element returned from the `Pet` component. Clicking the button should invoke a callback function that will call the setter function `setCount`. Use the `setCount` setter function to increase the value of `count` by 1.
-4. In the `Pet` Component in `Pet.js`, use `useState` to create a stateful variable named `displayAnimalType` and a setter function called `setDisplayAnimalType`. The initial value for the state should be `false`.
-5. Use the ternary operator to set the value for the `className` attribute for the `<h4>` element returned from the `Pet` component to "display-animal-type" if the value of `displayAnimalType` is true, and "" (empty string) if the value of `displayAnimalType` is false. For the text content of the `<h4>` element, conditionally render either the pet's animal_type if `displayAnimalType` is true or the pet's name if `displayAnimalType` is false.
-6. Add a click event listener to the `<h4>` element returned from the `Pet` component. Clicking the button should invoke a callback function that will call the setter function `setDisplayAnimalType`. Use the `setDisplayAnimalType` setter function change the value of `displayAnimalType` to `true` if it is false, or change the value to `false` if it is true.
+1. Decide: Do we need state for this feature? If so, where?
+2. Set up the initial state. What's a good initial value? What will we see on the page first? How will it change?
+3. Set up component to render something based on state. Do we need conditional rendering?
+4. Find a way to update state dynamically (based on user interaction; fetching data; etc).
 
-### Events
+### Process: Using Inverse Data Flow
 
-In React, we add event handlers directly to our JSX. We still must supply the event handler with a callback. For example, if we're trying to implement a click handler on a button, we could do so by passing a callback function to the onClick attribute of an element:
+1. Define a event handler in the child component
+2. Define a callback function in the parent component
+3. Pass the callback function as a prop to the child
+4. Call the callback in the event handler with whatever data we're sending up
 
-``` javascript
-function Counter() {
-  return <button onClick={() => console.log("clicked!")}>Click Me</button>;
-}
-```
+### Inverse Data Flow
 
-Events can only be attached to DOM elements, we can't attach event listeners to our components.
-
-We can also create a helper function for the callback:
-
-``` javascript
-function Counter() {
-  function handleClick(event) {
-    console.log(event);
-  }
-
-  return <button onClick={handleClick}>Click Me</button>;
-}
-```
-
-This is helpful in the case where we need to introduce additional event handling logic. We can do so without cluttering our JSX.
-
-Rather than working with the native event object in the browser, React passes a Synthetic Event object to our event handlers. Synthetic events ensure that you can use the event object in the same way regardless of browser or machine. This comes back to the learn once, write anywhere principle.
-
-Otherwise, events are more or less the same as they are in vanilla JS. With one notable exception being onChange which in React behaves identically to the onInput event.
-
-### State
-
-State is used for data that needs to be dynamic. Where props are passed down from parents to children and are static, values stored in state are meant to change, especially as the user interacts with the DOM.
-
-This is a key component of declarative programming in React: we tie our components to our state by integrating values in state into logic (e.g. conditional rendering). This way, changes in state eventually cause changes to the DOM.
-
-To work with state in a function component, we use the `useState` hook:
+In React, we only have one way to share information between multiple components:
+`props`. We've seen how to use props to send data from a parent component to a child component, like this:
 
 ```js
-import React, { useState } from "react";
+function Parent() {
+  const [search, setSearch] = useState("");
 
-function Counter() {
-  const [count, setCount] = useState(0);
+  // passing search down as a prop
+  return <Child search={search} />;
+}
 
-  return <button>Count: {count}</button>;
+function Child({ search }) {
+  return (
+    <div>
+      <p>You searched for: {search}</p>
+    </div>
+  );
 }
 ```
 
-When we call `useState(0)` inside the function component, that creates a new "state variable" which our function gets access to. That new state variable has an initial value of 0 (or whatever we pass into useState when we call it)
+It's also helpful to be able to pass data **up** from a child to a parent. In
+React, the only way to achieve this is by sending a **callback function** down
+from the parent to the child via `props`, and **call** that callback function in
+the child to send up data that we need.
 
-`useState` will return an array of two elements:
-
-- count: the current value for the state variable
-- setCount: a setter function to update the state variable
-
-To update a state variable, we use its setter function:
+First, we need to define a callback function in the parent component:
 
 ```js
-import React, { useState } from "react";
+function Parent() {
+  const [search, setSearch] = useState("");
 
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
+  function handleSearchChange(newValue) {
+    // do whatever we want with the data (usually setting state)
+    setSearch(newValue);
   }
 
-  return <button onClick={handleClick}>Count: {count}</button>;
+  return <Child search={search} />;
 }
 ```
 
-Calling the setter function does two things:
+Then, we need to pass a **reference** to the function down as a **prop** to the
+child component:
 
-- It updates the state variable to some new value
-- It causes our component to re-render and update the DOM
+```js
+function Parent() {
+  const [search, setSearch] = useState("");
 
-### Resources
+  function handleSearchChange(newValue) {
+    setSearch(newValue);
+  }
 
-- [React Docs - Events](https://reactjs.org/docs/events.html)
-- [React Docs - Hooks](https://reactjs.org/docs/hooks-overview.html)
-- [React Docs - Functional State Updates](https://reactjs.org/docs/hooks-reference.html#functional-updates)
-- [React Docs - Stale State Problem](https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function)
+  // pass down a reference to the function as a prop
+  return <Child search={search} onSearchChange={handleSearchChange} />;
+}
+```
+
+In our child component, we'll be able to call the callback function with
+whatever data we want to send up to the parent:
+
+```js
+function Child({ search, onSearchChange }) {
+  return (
+    <div>
+      <p>You searched for: {search}</p>
+
+      {/* call onSearchChange and pass up some data */}
+      <input type="text" onChange={(e) => onSearchChange(e.target.value)} />
+    </div>
+  );
+}
+```
+
+### Lifting State
+
+- [Sharing State Between Components](https://react.dev/learn/sharing-state-between-components)
+
+- Often, several components need to reflect the same changing data. We recommend lifting the shared state up to their closest common ancestor.
+- If two sibling components need access to the same `state`, you will want to place the shared `state` in a parent container. Then you can pass down that `state` as well as any functions that need to modify the state as props to the two sibling components that need to display and/or change that data.

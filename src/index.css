@@ -1,5 +1,7 @@
 :root {
   --red: rgb(255, 0, 0);
+  --orange: orange;
+  --green: rgb(0, 255, 0);
   --gray: rgb(105, 105, 105);
 }
 
@@ -44,8 +46,8 @@ h2 {
   color: white;
 }
 
-.like-button {
-  background-color: var(--red);
+.adopt-button {
+  background-color: var(--orange);
 }
 
 .unlike-button {
