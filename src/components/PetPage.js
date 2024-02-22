@@ -32,11 +32,9 @@ function PetPage(){
      * 
      * Tomorrow, you will learn how to properly add a new pet with unique information for the new pet via form submission.
      */
+
     function addPet(){
-        // setPetsState((petsState) => [...petsState, petsState[0]])
         const newPet = {...petsState[0], id: petsState.length + 1, name: "Another Dog"}
-        console.log(newPet)
-        // setPetsState((petsState) => [...petsState, petsState[0]])
         setPetsState((petsState) => [...petsState, newPet])
     }
 
