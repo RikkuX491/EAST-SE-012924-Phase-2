@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-function Pet({pet}){
+function Pet({pet, deletePet}){
+
+    // console.log(deletePet)
 
     const [displayAnimalType, setDisplayAnimalType] = useState(false)
 
@@ -12,7 +14,7 @@ function Pet({pet}){
         <li className="pet">
             <img src={pet.image} alt={pet.name}/>
             <h4 onClick={toggleDisplayAnimalType} className={displayAnimalType ? "display-animal-type" : ""}>{displayAnimalType ? pet.animal_type : pet.name}</h4>
-            <button className="adopt-button">Adopt</button>
+            <button onClick={() => deletePet(pet.id)} className="adopt-button">Adopt</button>
         </li>
     );
 }
