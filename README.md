@@ -17,7 +17,7 @@ We've been asked to build a website for a new pet adoption center, Flatapets, th
 Today we will learn about Information Flow to help us accomplish some tasks related to displaying data on the website.
 
 1. In the `PetPage` component in `PetPage.js`, declare a function named `updateSearchText` that will have the same functionality as the anonymous callback function in the `onChange` event handler in the `<input>` element returned from the `PetPage` component. The `onChange` event handler should have the value of `updateSearchText`, the named function that you just declared.
-2. Create a `Search` component by refactoring the `<div>` element out of the `PetPage` component. Typing into the `<input>` inside of the `Search` component to search for pets should maintain the filter functionality. You will need to pass the `updateSearchText` function as a prop to the `Search` component to order to maintain the functionality.
+2. Create a `Search` component by refactoring the `<div>` element out of the `PetPage` component. Typing into the `<input>` inside of the `Search` component to search for pets should maintain the filter functionality. You will need to pass the `updateSearchText` function that you created in Deliverable # 1 as a prop to the `Search` component to order to maintain the functionality.
 
 ### Process: Building React Features With State
 
