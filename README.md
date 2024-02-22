@@ -16,7 +16,7 @@ We've been asked to build a website for a new pet adoption center, Flatapets, th
 
 Today we will learn about Information Flow to help us accomplish some tasks related to displaying data on the website.
 
-1. Deliverable # 1 begins here...
+1. In the `PetPage` component in `PetPage.js`, declare a function named `updateSearchText` that will have the same functionality as the anonymous callback function in the `onChange` event handler in the `<input>` element returned from the `PetPage` component. The `onChange` event handler should have the value of `updateSearchText`, the named function that you just declared.
 
 ### Process: Building React Features With State
 
