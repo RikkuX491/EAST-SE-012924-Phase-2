@@ -34,7 +34,8 @@ function PetPage(){
      */
 
     function addPet(){
-        const newPet = {...petsState[0], id: petsState.length + 1, name: "Another Dog"}
+        const lastPetID = petsState[petsState.length - 1].id
+        const newPet = {...petsState[0], id: lastPetID + 1, name: "Another Pet"}
         setPetsState((petsState) => [...petsState, newPet])
     }
 
