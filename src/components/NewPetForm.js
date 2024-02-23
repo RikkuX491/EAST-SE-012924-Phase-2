@@ -11,8 +11,8 @@ function NewPetForm({addPet}) {
   /**
    * The commented out code below is a more optimal approach using only 1 state variable & setter function
    * to keep track of the <input> values for all <input> elements in the form. If using this approach, make
-   * sure to comment out lines 7 - 9, lines 34 - 44, and lines 57 - 62. Then, uncomment lines 24 - 32, and
-   * lines 49 - 55 so that we can use this code for the formData state implementation. Set the value of
+   * sure to comment out lines 7 - 9, lines 34 - 44, and lines 54 - 59. Then, uncomment lines 24 - 32, and
+   * lines 49 - 52 so that we can use this code for the formData state implementation. Set the value of
    * onChange for each of the <input> elements returned from NewPetForm to be equal to updateFormData, so
    * that the updateFormData function is called in response to a "change" event for each of the <input>
    * elements - whenever the value of any of the <input> elements change. Also, you should make sure that
@@ -49,9 +49,6 @@ function NewPetForm({addPet}) {
     // const newPet = {
     //   id: uuid(),
     //   ...formData
-      // name: formData.name,
-      // image: formData.image,
-      // animal_type: formData.animal_type
     // }
 
     const newPet = {
