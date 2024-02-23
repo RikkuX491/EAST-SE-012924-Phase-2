@@ -10,6 +10,47 @@ Please make sure that you are inside the folder for this repository which contai
 1. Run `npm install` in your terminal to install the dependencies from the `package.json` file.
 2. Run `npm start` in your terminal to run this React app in the browser. If your browser does not automatically open the page for you, open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+## Deliverables
+
+We've been asked to build a website for a new pet adoption center, Flatapets, that displays a list of pets available for adoption at this pet adoption center.
+
+Today we will learn about how to work with Forms and controlled input in React to help us accomplish some tasks related to displaying data on the website.
+
+1. There is a new component called `NewPetForm` that will allow us to add new pets
+to our website. _When the form is submitted_, a new pet should be created
+and added to our website.
+
+- Make all the input fields for this form controlled inputs, so that you can
+  access all the form data via state. 
+
+- Handle the form's _submit_ event, and use the data that you have saved in
+  state to create a new pet object with the following properties:
+
+  ``` jsx
+  const newPet = {
+    id: uuid(), // the `uuid` library can be used to generate a unique id
+    name: petName,
+    image: petImage,
+    animal_type: petAnimalType
+  };
+  ```
+
+- Add the new pet to the website by updating state. You should create a prop called `addPet` as a callback which should be passed to the `NewPetForm` component. `addPet` should have 1 parameter which should receive the value of the new pet to be added.
+
+  **NOTE**: to add a new element to an array in state, it's a good idea to use
+  the spread operator:
+
+  ```jsx
+  function addElement(element) {
+    setArray([...array, element]);
+  }
+  ```
+
+  The spread operator allows us to copy all the old values of an array into a
+  new array, and then add new elements as well. When you're working with state,
+  it's important to pass a _new_ array to the state setter function instead of
+  mutating the original array.
+
 ## Using Forms
 
 ### Process: Making a Controlled Form
