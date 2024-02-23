@@ -79,6 +79,26 @@ main {
   padding: 0 1rem;
 }
 
+.new-pet-form {
+  padding: 2rem 1rem;
+  margin: 2rem 0;
+  background-color: rgba(250, 223, 181, 0.5);
+}
+
+.new-pet-form form {
+  display: flex;
+  justify-content: center;
+}
+
+.new-pet-form input {
+  margin-right: 2rem;
+  flex: 1;
+}
+
+.new-pet-form button {
+  width: 150px;
+}
+
 .searchbar {
   padding: 1rem;
   display: flex;

@@ -1,4 +1,3 @@
-// Deliverable # 2
 function Search({updateSearchText}){
 
     return (
@@ -8,7 +7,6 @@ function Search({updateSearchText}){
                 type="text"
                 id="search"
                 placeholder="Type a name to search..."
-                // Deliverable # 1
                 onChange={updateSearchText}
             />
         </div>

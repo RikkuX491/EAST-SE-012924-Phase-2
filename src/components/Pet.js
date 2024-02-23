@@ -12,8 +12,6 @@ function Pet({pet, deletePet}){
         <li className="pet">
             <img src={pet.image} alt={pet.name}/>
             <h4 onClick={toggleDisplayAnimalType} className={displayAnimalType ? "display-animal-type" : ""}>{displayAnimalType ? pet.animal_type : pet.name}</h4>
-            
-            {/* Deliverable # 6 */}
             <button onClick={() => deletePet(pet.id)} className="adopt-button">Adopt</button>
         </li>
     );

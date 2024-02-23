@@ -1,8 +1,8 @@
-# Lecture # 3 - Information Flow
+# Lecture # 4 - Forms
 ## SWBAT
-- [ ] Define the term “lifting state”
-- [ ] Recognize the pattern for changing state in a parent component from a child component
-- [ ] Explain the role that callback functions play in changing parent state
+- [ ] Explain the difference between a controlled and uncontrolled input
+- [ ] Review how to use callback functions with events in React
+- [ ] Review how to change parent state from a child component
 
 ## Setup
 Please make sure that you are inside the folder for this repository which contains the `package.json` file before following these instructions for setup:
@@ -10,110 +10,259 @@ Please make sure that you are inside the folder for this repository which contai
 1. Run `npm install` in your terminal to install the dependencies from the `package.json` file.
 2. Run `npm start` in your terminal to run this React app in the browser. If your browser does not automatically open the page for you, open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Deliverables
+## Using Forms
 
-We've been asked to build a website for a new pet adoption center, Flatapets, that displays a list of pets available for adoption at this pet adoption center.
+### Process: Making a Controlled Form
 
-Today we will learn about Information Flow to help us accomplish some tasks related to displaying data on the website.
+1. For each input element in the form, create a new state variable
+2. Connect the `value` attribute of each input field to the corresponding state variable
+3. Create an `onChange` handler for each input field to _update_ the corresponding state variable
+4. On the `<form>` element, create an `onSubmit` listener and attach a `handleSubmit` handler to run code when the form is submitted
 
-1. In the `PetPage` component in `PetPage.js`, declare a function named `updateSearchText` that will have the same functionality as the anonymous callback function in the `onChange` attribute (change event listener) in the `<input>` element returned from the `PetPage` component. `onChange` should have the value of `updateSearchText`, the named function that you just declared.
-2. Create a `Search` component by refactoring the `<div>` element out of the `PetPage` component. Typing into the `<input>` inside of the `Search` component to search for pets should maintain the filter functionality. You will need to pass the `updateSearchText` function that you created in Deliverable # 1 as a prop to the `Search` component to order to maintain the functionality.
-3. In the `PetPage` component in `PetPage.js`, use `useState` to create a stateful variable named `petsState` and a setter function called `setPetsState`. The initial value for the state should be the `pets` variable.
-4. In the `PetPage` component in `PetPage.js`, declare a function named `deletePet` that has one parameter called `id`. The `deletePet` function should remove a pet from the page. To do this, you will need to call the `setPetsState` setter function to update the value of the `petsState` to contain an array that excludes the pet that should be deleted. Hint: You can use the `.filter()` array iterator method to create a new array that does not include the pet that you want to delete. Include only the pets whose id does **not** match the value of the `id` parameter.
-5. Pass the `deletePet` function as a prop to the `PetList` component. Then, in the `PetList` component, pass `deletePet` as a prop to each of the `Pet` components.
-6. In the `Pet` component in `Pet.js`, add an `onClick` attribute (click event listener) to the `<button>` element returned from the `Pet` component. The value of the `onClick` attribute (click event listener) should be a callback function that invokes the `deletePet` function. Pass in the pet's id as an argument into the `deletePet` function.
+### HTML Forms
 
-### Process: Building React Features With State
+In vanilla JS, our typical process for working with forms and getting access to
+the form data in our application looked something like this:
 
-1. Decide: Do we need state for this feature? If so, where?
-2. Set up the initial state. What's a good initial value? What will we see on the page first? How will it change?
-3. Set up component to render something based on state. Do we need conditional rendering?
-4. Find a way to update state dynamically (based on user interaction; fetching data; etc).
+- Get the form element and listen for a submit event
+- Find the form inputs using their name attribute and grab the values
+- Do something with the form data (send a `fetch` request; update the DOM)
 
-### Process: Using Inverse Data Flow
+``` javascript
+const form = document.querySelector("form");
 
-1. Define a event handler in the child component
-2. Define a callback function in the parent component
-3. Pass the callback function as a prop to the child
-4. Call the callback in the event handler with whatever data we're sending up
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  // access form data from the DOM
+  const nameInput = event.target.name;
+  const passwordInput = event.target.password;
+
+  const formData = {
+    name: nameInput.value,
+    password: passwordInput.value,
+  };
+  // do something with the form data
+});
+```
+
+### React Controlled Forms
+
+In React, rather than looking into the DOM to get the form's input field values
+when the form is submitted, we use **state** to monitor the user's input **as
+they type**, so that our component state is always _in sync_ with the DOM.
+
+To keep track of each input's value, you need:
+
+1. Some state to manage the input.
+2. An `onChange` listener on the input to monitor user input and update state.
+3. A `value` attribute on the input.
+
+And for the form itself, you need an `onSubmit` listener on the form to finally
+submit data.
+
+For example, if we have a form component that looks like this:
+
+``` javascript
+function CommentForm() {
+  const [username, setUsername] = useState("");
+  const [comment, setComment] = useState("");
+
+  return (
+    <form>
+      <input type="text" name="username" />
+      <textarea name="comment" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+We could attach onChange listeners to each input to monitor user input and update state. Doing this creates a 1-way connection wherein user input changes `state`. This
+is called an _uncontrolled form_:
+
+``` javascript
+function CommentForm() {
+  const [username, setUsername] = useState("");
+  const [comment, setComment] = useState("");
+
+  function handleUsernameChange(event) {
+    setUsername(event.target.value);
+  }
+
+  function handleCommentChange(event) {
+    setComment(event.target.value);
+  }
+
+  return (
+    <form>
+      <input type="text" name="username" onChange={handleUsernameChange} />
+      <textarea name="comment" onChange={handleCommentChange} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+To make it a 2-way street wherein `state` can change the user's input, we add a
+`value` attribute to our inputs.
+
+``` jsx
+<form>
+  <input
+    type="text"
+    name="username"
+    onChange={handleUsernameChange}
+    value={username}
+  />
+  <textarea name="comment" onChange={handleCommentChange} value={comment} />
+</form>
+```
 
 ### Inverse Data Flow
 
-In React, we only have one way to share information between multiple components:
-`props`. We've seen how to use props to send data from a parent component to a child component, like this:
+When the form actually submits, it's often helpful to pass the state from the form up to a parent component. Imagine we have an app like this:
 
-```js
-function Parent() {
-  const [search, setSearch] = useState("");
+```txt
+    CommentContainer
+       /       \
+CommentForm CommentCard
+```
 
-  // passing search down as a prop
-  return <Child search={search} />;
-}
+When the user submits out the comment form, a new `CommentCard` should be rendered. The `CommentContainer` holds an array of comments in state, so it needs to be updated when a new comment is added. To achieve this, we need to pass down a _callback function_ from the `CommentContainer` to the `CommentForm` as a prop:
 
-function Child({ search }) {
+``` javascript
+function CommentContainer() {
+  const [comments, setComments] = useState([])
+
+  const commentCards = comments.map((comment, index) => (
+    <CommentCard key={index} comment={comment} />
+  ))
+
+  // callback for adding a new comment to state
+  function addComment(newComment) {
+    setComments([...comments, newComment]);
+  };
+
   return (
-    <div>
-      <p>You searched for: {search}</p>
-    </div>
+    <section>
+      {commentCards}
+      <hr />
+      <CommentForm onAddComment={addComment} />
+    </section>
   );
 }
 ```
 
-It's also helpful to be able to pass data **up** from a child to a parent. In
-React, the only way to achieve this is by sending a **callback function** down
-from the parent to the child via `props`, and **call** that callback function in
-the child to send up data that we need.
-
-First, we need to define a callback function in the parent component:
+When the user submits the comment, we can use the `handleCommentSubmit` callback in the `onSubmit` event in the `CommentForm`:
 
 ```js
-function Parent() {
-  const [search, setSearch] = useState("");
+function CommentForm({ onAddComment }) {
+  const [username, setUsername] = useState("");
+  const [comment, setComment] = useState("");
 
-  function handleSearchChange(newValue) {
-    // do whatever we want with the data (usually setting state)
-    setSearch(newValue);
+  function handleUsernameChange(event) {
+    setUsername(event.target.value);
   }
 
-  return <Child search={search} />;
-}
-```
-
-Then, we need to pass a **reference** to the function down as a **prop** to the
-child component:
-
-```js
-function Parent() {
-  const [search, setSearch] = useState("");
-
-  function handleSearchChange(newValue) {
-    setSearch(newValue);
+  function handleCommentChange(event) {
+    setComment(event.target.value);
   }
 
-  // pass down a reference to the function as a prop
-  return <Child search={search} onSearchChange={handleSearchChange} />;
-}
-```
+  function handleSubmit(event) {
+    event.preventDefault();
+    const newComment = {
+      username,
+      comment,
+    };
+    onAddComment(newComment);
+  }
 
-In our child component, we'll be able to call the callback function with
-whatever data we want to send up to the parent:
-
-```js
-function Child({ search, onSearchChange }) {
   return (
-    <div>
-      <p>You searched for: {search}</p>
-
-      {/* call onSearchChange and pass up some data */}
-      <input type="text" onChange={(e) => onSearchChange(e.target.value)} />
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="username" onChange={handleUsernameChange} />
+      <textarea name="comment" onChange={handleCommentChange} />
+      <button type="submit">Submit</button>
+    </form>
   );
 }
 ```
 
-### Lifting State
+### Advanced State Updates: Arrays
 
-- [Sharing State Between Components](https://react.dev/learn/sharing-state-between-components)
+These are some common strategies for updating arrays in state _without_ mutating the original array.
 
-- Often, several components need to reflect the same changing data. We recommend lifting the shared state up to their closest common ancestor.
-- If two sibling components need access to the same `state`, you will want to place the shared `state` in a parent container. Then you can pass down that `state` as well as any functions that need to modify the state as props to the two sibling components that need to display and/or change that data.
+- adding an item: use **spread operator** - `setItems([...items, newItem])`
+- removing an item: use **filter** - `setItems(items.filter(i => i.id !== id))`
+- updating an item: use **map** - `setItems(items.map(i => i.id === updatedItem.id ? updatedItem : i))`
+
+#### Adding to an array
+
+- Use the spread operator!
+
+``` javascript
+function addComment(newComment) {
+  // spread to create a new array and add new comment at the end
+  const updatedComments = [...comments, newComment];
+  setComments(updatedComments);
+}
+```
+
+#### Removing from an array
+
+- Use filter!
+
+``` javascript
+function removeComment(commentId) {
+  // filter to return a new array with the comment we don't want removed
+  const updatedComments = comments.filter(
+    (comment) => comment.id !== commentId
+  );
+  setComments(updatedComments);
+}
+```
+
+#### Updating an item in an array
+
+- Use map!
+
+``` javascript
+function updateComment(updatedComment) {
+  // map to return a new array with the updated comment we want to update
+  const updatedComments = comments.map((comment) => {
+    if (comment.id === updatedComment.id) {
+      // if the comment in state is the one we want to update, replace it with the new updated object
+      return updatedComment;
+    } else {
+      // otherwise return the original object
+      return comment;
+    }
+  });
+  setComments(updatedComments);
+}
+```
+
+If you only want to update one attribute instead of replacing the whole object:
+
+``` javascript
+// updating one object in an array
+function updateCustomer(id, name) {
+  // use map to return a new array so we aren't mutating state
+  const updatedCustomers = customers.map((customer) => {
+    // in the array, look for the object we want to update
+    if (customer.id === id) {
+      // if we find the object
+      // make a copy of it and update whatever attribute have changed
+      return {
+        ...customer,
+        name: name,
+      };
+    } else {
+      // for all other objects in the array
+      return customer; // return the original object
+    }
+  });
+
+  // set state with our updated array
+  setCustomers(updatedCustomers);
+}
+```
