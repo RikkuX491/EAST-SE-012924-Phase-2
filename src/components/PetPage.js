@@ -25,13 +25,17 @@ function PetPage(){
         }))
     }
 
+    // Deliverable # 1
     function addPet(newPet){
         setPetsState([...petsState, newPet])
     }
 
     return (
         <main>
+            
+            {/* Deliverable # 1 */}
             <NewPetForm addPet={addPet}/>
+
             <Search updateSearchText={updateSearchText}/>
             <PetList pets={filteredPets} deletePet={deletePet}/>
         </main>
