@@ -1,17 +1,14 @@
 import PetList from "./PetList";
-import pets from "../data/pets";
 import { useState } from "react";
 import Search from './Search';
 import NewPetForm from "./NewPetForm";
 
-console.log(pets)
-
 function PetPage(){
 
-    const [petsState, setPetsState] = useState(pets)
+    const [pets, setPets] = useState([])
     const [searchText, setSearchText] = useState("")
 
-    const filteredPets = petsState.filter(pet => {
+    const filteredPets = pets.filter(pet => {
         return pet.name.toUpperCase().includes(searchText.toUpperCase())
     })
 
@@ -20,19 +17,19 @@ function PetPage(){
     }
 
     function deletePet(id){
-        setPetsState((petsState) => petsState.filter(pet => {
+        setPets((pets) => pets.filter(pet => {
             return pet.id !== id
         }))
     }
 
     function addPet(newPet){
-        setPetsState([...petsState, newPet])
+        setPets([...pets, newPet])
     }
 
     return (
         <main>
             <NewPetForm addPet={addPet}/>
-            <Search updateSearchText={updateSearchText}/>
+            <Search updateSearchText={updateSearchText} searchText={searchText}/>
             <PetList pets={filteredPets} deletePet={deletePet}/>
         </main>
     );

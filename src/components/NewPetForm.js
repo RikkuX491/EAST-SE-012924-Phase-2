@@ -3,10 +3,6 @@ import { useState } from "react";
 
 function NewPetForm({addPet}) {
 
-  // const [petNameInput, setPetNameInput] = useState("")
-  // const [petImageInput, setPetImageInput] = useState("")
-  // const [petAnimalTypeInput, setPetAnimalTypeInput] = useState("")
-
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -17,39 +13,15 @@ function NewPetForm({addPet}) {
     setFormData({...formData, [event.target.name]: event.target.value})
   }
 
-  // function updatePetNameInput(event){
-  //   setPetNameInput(event.target.value)
-  // }
-
-  // function updatePetImageInput(event){
-  //   setPetImageInput(event.target.value)
-  // }
-
-  // function updatePetAnimalTypeInput(event){
-  //   setPetAnimalTypeInput(event.target.value)
-  // }
-
   function handleSubmit(event){
     event.preventDefault()
 
     const newPet = {
       id: uuid(),
       ...formData
-      // name: formData.name,
-      // image: formData.image,
-      // animal_type: formData.animal_type
     }
 
-    // const newPet = {
-    //   id: uuid(),
-    //   name: petNameInput,
-    //   image: petImageInput,
-    //   animal_type: petAnimalTypeInput
-    // }
-
     addPet(newPet)
-    
-    // event.target.reset()
     
     setFormData({
       name: "",

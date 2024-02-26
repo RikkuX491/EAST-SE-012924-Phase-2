@@ -1,309 +1,125 @@
-# Lecture # 4 - Forms
+# Lecture # 5 - Side Effects & Data Fetching
 ## SWBAT
-- [ ] Explain the difference between a controlled and uncontrolled input
-- [ ] Review how to use callback functions with events in React
-- [ ] Review how to change parent state from a child component
+- [ ] Explain what a side effect is
+- [ ] Observe how React manages side effects with the useEffect hook
+- [ ] Observe how to use the useEffect hook to fetch data on page load
+- [ ] Observe how to send a POST request via form
+- [ ] Review changing parent state
 
 ## Setup
 Please make sure that you are inside the folder for this repository which contains the `package.json` file before following these instructions for setup:
 
 1. Run `npm install` in your terminal to install the dependencies from the `package.json` file.
-2. Run `npm start` in your terminal to run this React app in the browser. If your browser does not automatically open the page for you, open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Run `npm run server`. This will run your backend on port `4000`.
+3. In a new terminal, run `npm start` in your terminal to run this React app in the browser. If your browser does not automatically open the page for you, open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ## Deliverables
 
 We've been asked to build a website for a new pet adoption center, Flatapets, that displays a list of pets available for adoption at this pet adoption center.
 
-Today we will learn about how to work with Forms and controlled input in React to help us accomplish some tasks related to displaying data on the website.
+Today we will learn about Side Effects & Data Fetching in React to help us accomplish some tasks related to displaying data on the website.
 
-1. There is a new component called `NewPetForm` that will allow us to add new pets
-to our website. _When the form is submitted_, a new pet should be created
-and added to our website.
+1. Use the `useEffect` hook in the `PetPage` component in `PetPage.js`. Inside the callback for
+  `useEffect`, use the `fetch()` function to make a `GET` request to
+  `http://localhost:4000/pets` and retrieve the pets data from the server. Call the `setPets` setter function to update the state to contain the pets data retrieved from the server. Make sure to include an empty dependency array so that the code inside of the callback function in `useEffect` (the side effect) will only run once! The pets should now display on the webpage in the browser.
+2. When submitting the `<form>` to add a new pet, a new id is generated for the new pet using the `uuid()` function in the `NewPetForm` component in `NewPetForm.js`. Delete line 20 in `NewPetForm.js` (this is the line with the following code `id: uuid(),`) so that we are no longer using the `uuid()` function to generate a new id for the new pet.
+3. Modify the code in the `addPet` function in the `PetPage` component to make a `POST` request to `http://localhost:4000/pets` to add the new pet to the database when the form is submitted. Implement a pessimistic rendering approach to add the new pet after getting the data for the new pet from the server when the `POST` request is successful.
+- Note: If you take a look in the `db.json` file and see where the new pet was added (if the `POST` request was successful), you will notice that the JSON Server took care of generating a new id for the new pet! We no longer need to worry about generating a new id manually since the JSON Server will take care of generating a new id for the new object added via `POST` request.
 
-- Make all the input fields for this form controlled inputs, so that you can
-  access all the form data via state. 
+## Fetching Data with useEffect
 
-- Handle the form's _submit_ event, and use the data that you have saved in
-  state to create a new pet object with the following properties:
+In terms of a React component, the main effect of the component is to return some JSX. One of the first rules we learned about function components is that they take in props, and return JSX. However, it's often necessary for a component to perform some side effects in addition to its main job of returning JSX. For example, we might want to:
 
-  ``` jsx
-  const newPet = {
-    id: uuid(), // the `uuid` library can be used to generate a unique id
-    name: petName,
-    image: petImage,
-    animal_type: petAnimalType
-  };
-  ```
+- Fetch some data from an API when a component loads
+- Start or stop a timer
+- Manually change the DOM
+- Get the user's location
 
-- Add the new pet to the website by updating state. You should create a prop called `addPet` as a callback which should be passed to the `NewPetForm` component. `addPet` should have 1 parameter which should receive the value of the new pet to be added.
+In order to handle these kinds of side effects within our components, we'll need to use another special hook from React: `useEffect`.
 
-  **NOTE**: to add a new element to an array in state, it's a good idea to use
-  the spread operator:
-
-  ```jsx
-  function addElement(element) {
-    setArray([...array, element]);
-  }
-  ```
-
-  The spread operator allows us to copy all the old values of an array into a
-  new array, and then add new elements as well. When you're working with state,
-  it's important to pass a _new_ array to the state setter function instead of
-  mutating the original array.
-
-## Using Forms
-
-### Process: Making a Controlled Form
-
-1. For each input element in the form, create a new state variable
-2. Connect the `value` attribute of each input field to the corresponding state variable
-3. Create an `onChange` handler for each input field to _update_ the corresponding state variable
-4. On the `<form>` element, create an `onSubmit` listener and attach a `handleSubmit` handler to run code when the form is submitted
-
-### HTML Forms
-
-In vanilla JS, our typical process for working with forms and getting access to
-the form data in our application looked something like this:
-
-- Get the form element and listen for a submit event
-- Find the form inputs using their name attribute and grab the values
-- Do something with the form data (send a `fetch` request; update the DOM)
+It looks like this:
 
 ``` javascript
-const form = document.querySelector("form");
+import { useEffect } from "react";
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  // access form data from the DOM
-  const nameInput = event.target.name;
-  const passwordInput = event.target.password;
+function App() {
+  useEffect(
+    // side effect function
+    () => {
+      console.log("Running side effect");
+    },
+    // dependencies array
+    []
+  );
 
-  const formData = {
-    name: nameInput.value,
-    password: passwordInput.value,
-  };
-  // do something with the form data
-});
+  console.log("Rendering component");
+
+  return <h1>App</h1>;
+}
 ```
 
-### React Controlled Forms
+If you run the example code now, you'll see the console messages appear in this order:
 
-In React, rather than looking into the DOM to get the form's input field values
-when the form is submitted, we use **state** to monitor the user's input **as
-they type**, so that our component state is always _in sync_ with the DOM.
+- Rendering component
+- Running side effect
 
-To keep track of each input's value, you need:
+So we are now able to run some extra code as a side effect after our component is rendered!
 
-1. Some state to manage the input.
-2. An `onChange` listener on the input to monitor user input and update state.
-3. A `value` attribute on the input.
-
-And for the form itself, you need an `onSubmit` listener on the form to finally
-submit data.
-
-For example, if we have a form component that looks like this:
+## useEffect Dependencies
 
 ``` javascript
-function CommentForm() {
-  const [username, setUsername] = useState("");
-  const [comment, setComment] = useState("");
+useEffect(
+  // side effect function
+  () => {
+    console.log("Running side effect");
+  },
+  // dependencies array
+  []
+);
+```
+
+The dependencies array lets us control what state the side effect code depends on. You can think of it as a way to synchronize our effects with state.
+
+- When we don't include a dependencies array, our side effect will run every time the component renders.
+- When the dependencies array is empty, the side effect will only run once.
+- When we put stateful variables into the dependencies array, the side effect will run any time the state for those stateful variables change between renders.
+
+For example, if we change our component like so:
+
+``` javascript
+import { useState, useEffect } from "react";
+
+function App() {
+  const [text, setText] = useState("");
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Running side effect");
+    console.log("Count is: ", count);
+  }, [count]);
+
+  console.log("Rendering component");
 
   return (
-    <form>
-      <input type="text" name="username" />
-      <textarea name="comment" />
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button onClick={() => setCount((count) => count + 1)}>{count}</button>
+    </div>
   );
 }
 ```
 
-We could attach onChange listeners to each input to monitor user input and update state. Doing this creates a 1-way connection wherein user input changes `state`. This
-is called an _uncontrolled form_:
+The side effect code will only run when the `count` state changes; but it won't run when the `text` state changes.
 
-``` javascript
-function CommentForm() {
-  const [username, setUsername] = useState("");
-  const [comment, setComment] = useState("");
+## Resource
 
-  function handleUsernameChange(event) {
-    setUsername(event.target.value);
-  }
+Learning `useEffect` is challenging, but in the long run it will be one of the
+most important tools in your React toolkit. Here is a deeper dive into
+working with `useEffect` to refer to:
 
-  function handleCommentChange(event) {
-    setComment(event.target.value);
-  }
-
-  return (
-    <form>
-      <input type="text" name="username" onChange={handleUsernameChange} />
-      <textarea name="comment" onChange={handleCommentChange} />
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
-```
-
-To make it a 2-way street wherein `state` can change the user's input, we add a
-`value` attribute to our inputs.
-
-``` jsx
-<form>
-  <input
-    type="text"
-    name="username"
-    onChange={handleUsernameChange}
-    value={username}
-  />
-  <textarea name="comment" onChange={handleCommentChange} value={comment} />
-</form>
-```
-
-### Inverse Data Flow
-
-When the form actually submits, it's often helpful to pass the state from the form up to a parent component. Imagine we have an app like this:
-
-```txt
-    CommentContainer
-       /       \
-CommentForm CommentCard
-```
-
-When the user submits out the comment form, a new `CommentCard` should be rendered. The `CommentContainer` holds an array of comments in state, so it needs to be updated when a new comment is added. To achieve this, we need to pass down a _callback function_ from the `CommentContainer` to the `CommentForm` as a prop:
-
-``` javascript
-function CommentContainer() {
-  const [comments, setComments] = useState([])
-
-  const commentCards = comments.map((comment, index) => (
-    <CommentCard key={index} comment={comment} />
-  ))
-
-  // callback for adding a new comment to state
-  function addComment(newComment) {
-    setComments([...comments, newComment]);
-  };
-
-  return (
-    <section>
-      {commentCards}
-      <hr />
-      <CommentForm onAddComment={addComment} />
-    </section>
-  );
-}
-```
-
-When the user submits the comment, we can use the `handleCommentSubmit` callback in the `onSubmit` event in the `CommentForm`:
-
-```js
-function CommentForm({ onAddComment }) {
-  const [username, setUsername] = useState("");
-  const [comment, setComment] = useState("");
-
-  function handleUsernameChange(event) {
-    setUsername(event.target.value);
-  }
-
-  function handleCommentChange(event) {
-    setComment(event.target.value);
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const newComment = {
-      username,
-      comment,
-    };
-    onAddComment(newComment);
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="username" onChange={handleUsernameChange} />
-      <textarea name="comment" onChange={handleCommentChange} />
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
-```
-
-### Advanced State Updates: Arrays
-
-These are some common strategies for updating arrays in state _without_ mutating the original array.
-
-- adding an item: use **spread operator** - `setItems([...items, newItem])`
-- removing an item: use **filter** - `setItems(items.filter(i => i.id !== id))`
-- updating an item: use **map** - `setItems(items.map(i => i.id === updatedItem.id ? updatedItem : i))`
-
-#### Adding to an array
-
-- Use the spread operator!
-
-``` javascript
-function addComment(newComment) {
-  // spread to create a new array and add new comment at the end
-  const updatedComments = [...comments, newComment];
-  setComments(updatedComments);
-}
-```
-
-#### Removing from an array
-
-- Use filter!
-
-``` javascript
-function removeComment(commentId) {
-  // filter to return a new array with the comment we don't want removed
-  const updatedComments = comments.filter(
-    (comment) => comment.id !== commentId
-  );
-  setComments(updatedComments);
-}
-```
-
-#### Updating an item in an array
-
-- Use map!
-
-``` javascript
-function updateComment(updatedComment) {
-  // map to return a new array with the updated comment we want to update
-  const updatedComments = comments.map((comment) => {
-    if (comment.id === updatedComment.id) {
-      // if the comment in state is the one we want to update, replace it with the new updated object
-      return updatedComment;
-    } else {
-      // otherwise return the original object
-      return comment;
-    }
-  });
-  setComments(updatedComments);
-}
-```
-
-If you only want to update one attribute instead of replacing the whole object:
-
-``` javascript
-// updating one object in an array
-function updateCustomer(id, name) {
-  // use map to return a new array so we aren't mutating state
-  const updatedCustomers = customers.map((customer) => {
-    // in the array, look for the object we want to update
-    if (customer.id === id) {
-      // if we find the object
-      // make a copy of it and update whatever attribute have changed
-      return {
-        ...customer,
-        name: name,
-      };
-    } else {
-      // for all other objects in the array
-      return customer; // return the original object
-    }
-  });
-
-  // set state with our updated array
-  setCustomers(updatedCustomers);
-}
-```
+- The [useEffect reference](https://react.dev/reference/react/useEffect)
+  on the React docs is a great place to start!
