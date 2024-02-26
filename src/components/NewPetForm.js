@@ -1,4 +1,3 @@
-import { v4 as uuid } from "uuid";
 import { useState } from "react";
 
 function NewPetForm({addPet}) {
@@ -17,7 +16,6 @@ function NewPetForm({addPet}) {
     event.preventDefault()
 
     const newPet = {
-      // id: uuid(),
       ...formData
     }
 

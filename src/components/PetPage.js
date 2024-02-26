@@ -12,11 +12,7 @@ function PetPage(){
         fetch('http://localhost:4000/pets')
         .then(response => response.json())
         .then(petsData => setPets(petsData))
-
-        // console.log("Running the side effect code in useEffect()")
     }, [])
-
-    // console.log("Rendering the component")
 
     const filteredPets = pets.filter(pet => {
         return pet.name.toUpperCase().includes(searchText.toUpperCase())
@@ -33,18 +29,15 @@ function PetPage(){
     }
 
     function addPet(newPet){
-        // setPets([...pets, newPet])
-
         fetch('http://localhost:4000/pets', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(newPet)
+            body: JSON.stringify({...newPet, likes: 0})
         })
         .then(response => response.json())
         .then(newPetData => setPets([...pets, newPetData]))
-
     }
 
     return (
