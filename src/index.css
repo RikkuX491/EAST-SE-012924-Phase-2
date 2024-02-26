@@ -64,7 +64,7 @@ h2 {
   float: right;
 }
 
-.save-changes-button {
+.edit-pet button {
   background-color: var(--gray);
   float: left;
   margin-top: 10px;
