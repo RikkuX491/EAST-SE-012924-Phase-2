@@ -23,6 +23,10 @@ h2 {
   color: blue;
 }
 
+.button-div {
+  text-align: center;
+}
+
 .favorite-button {
   border: none;
   background: none;
@@ -52,10 +56,18 @@ h2 {
 
 .like-button {
   background-color: var(--red);
+  float: left;
 }
 
-.unlike-button {
+.update-button {
   background-color: var(--gray);
+  float: right;
+}
+
+.save-changes-button {
+  background-color: var(--gray);
+  float: left;
+  margin-top: 10px;
 }
 
 .app {
