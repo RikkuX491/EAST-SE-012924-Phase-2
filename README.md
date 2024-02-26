@@ -1,0 +1,2 @@
+# Vanilla JS version of the solution code for Lecture # 1 deliverables
+This branch contains the Vanilla JS version of the solution code for the deliverables from Lecture # 1 made for you to compare with the React version of the solution code!
