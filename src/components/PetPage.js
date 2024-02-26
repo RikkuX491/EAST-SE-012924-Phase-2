@@ -8,15 +8,12 @@ function PetPage(){
     const [pets, setPets] = useState([])
     const [searchText, setSearchText] = useState("")
 
+    // Deliverable # 1
     useEffect(() => {
         fetch('http://localhost:4000/pets')
         .then(response => response.json())
         .then(petsData => setPets(petsData))
-
-        // console.log("Running the side effect code in useEffect()")
     }, [])
-
-    // console.log("Rendering the component")
 
     const filteredPets = pets.filter(pet => {
         return pet.name.toUpperCase().includes(searchText.toUpperCase())
@@ -32,9 +29,8 @@ function PetPage(){
         }))
     }
 
+    // Deliverable # 3
     function addPet(newPet){
-        // setPets([...pets, newPet])
-
         fetch('http://localhost:4000/pets', {
             method: "POST",
             headers: {
@@ -44,7 +40,6 @@ function PetPage(){
         })
         .then(response => response.json())
         .then(newPetData => setPets([...pets, newPetData]))
-
     }
 
     return (
