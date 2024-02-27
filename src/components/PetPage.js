@@ -22,6 +22,7 @@ function PetPage(){
         setSearchText(event.target.value)
     }
 
+    // Deliverable # 6
     function deletePet(id){
         fetch(`http://localhost:4000/pets/${id}`, {
             method: "DELETE"
@@ -50,6 +51,7 @@ function PetPage(){
         .then(newPetData => setPets([...pets, newPetData]))
     }
 
+    // Deliverable # 4 & 5
     function updatePet(id, petDataForUpdate){
         fetch(`http://localhost:4000/pets/${id}`, {
             method: "PATCH",
