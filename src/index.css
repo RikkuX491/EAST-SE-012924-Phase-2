@@ -42,7 +42,7 @@ h2 {
   cursor: pointer;
 }
 
-.pet button {
+.pet button, .pet-profile button {
   padding: 0.25rem 1rem;
   font-family: inherit;
   border: none;
@@ -141,12 +141,18 @@ input:focus {
   list-style: none;
 }
 
-.pet {
+.pet, .pet-profile {
   margin: 1rem;
 }
 
-.pet img {
+.pet img, .pet-profile img {
   width: 100%;
+}
+
+.pet-profile {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 768px) {
@@ -158,16 +164,28 @@ input:focus {
   .pet {
     width: calc(33% - 2rem);
   }
+
+  .pet-profile {
+    width: calc(66% - 2rem);
+  }
 }
 
 @media (min-width: 1024px) {
   .pet {
     width: calc(25% - 2rem);
   }
+
+  .pet-profile {
+    width: calc(50% - 2rem);
+  }
 }
 
 @media (min-width: 1200px) {
   .pet {
     width: calc(20% - 2rem);
+  }
+
+  .pet-profile {
+    width: calc(40% - 2rem);
   }
 }
