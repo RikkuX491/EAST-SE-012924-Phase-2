@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Pet({pet}){
 
@@ -12,6 +13,7 @@ function Pet({pet}){
         <li className="pet">
             <img src={pet.image} alt={pet.name}/>
             <h4 onClick={toggleDisplayAnimalType} className={displayAnimalType ? "display-animal-type" : ""}>{displayAnimalType ? pet.animal_type : pet.name}</h4>
+            <Link to={`/profiles/${pet.id}`}>View Pet Profile</Link>
         </li>
     );
 }

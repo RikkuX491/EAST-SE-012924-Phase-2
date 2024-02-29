@@ -1,9 +1,12 @@
 import Pet from "./Pet";
+import { useOutletContext } from "react-router-dom";
 
-function PetList({ pets, deletePet, updatePet }){
+function PetList(){
+
+    const {pets} = useOutletContext()
 
     const petComponents = pets.map(pet => {
-        return <Pet key={pet.id} pet={pet} deletePet={deletePet} updatePet={updatePet}/>
+        return <Pet key={pet.id} pet={pet}/>
     })
 
     return (
