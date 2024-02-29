@@ -78,9 +78,9 @@ function App(){
 
     return (
       <div className="app">
-        {/* <nav>
-          <a onClick={(event) => navigate(event, "/")} href="/">Home</a>
-          <a onClick={(event) => navigate(event, "/add_pet")} href="/add_pet">Add Pet</a>
+        {/* <nav className="navbar">
+          <a className={route === "/" ? "active" : ""} onClick={(event) => navigate(event, "/")} href="/">Home</a>
+          <a className={route === "/add_pet" ? "active" : ""} onClick={(event) => navigate(event, "/add_pet")} href="/add_pet">Add Pet</a>
         </nav> */}
         <Header/>
         <NewPetForm addPet={addPet}/>
